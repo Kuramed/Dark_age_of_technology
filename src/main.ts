@@ -6,7 +6,6 @@ async function bootstrap() {
  const app = await NestFactory.create(AppModule);
 
  app.useGlobalPipes(new ValidationPipe());
- // Configuração do Swagger
  const config = new DocumentBuilder()
  .setTitle('User CRUD API')
  .setDescription('Documentação da API de Usuários com NestJS e Prisma')
