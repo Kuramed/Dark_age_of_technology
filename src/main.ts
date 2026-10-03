@@ -1,20 +1,34 @@
-import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-async function bootstrap() {
- const app = await NestFactory.create(AppModule);
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
- app.useGlobalPipes(new ValidationPipe());
- const config = new DocumentBuilder()
- .setTitle('User CRUD API')
- .setDescription('Documentação da API de Usuários com NestJS e Prisma')
- .setVersion('1.0')
- .addTag('users')
- .build();
- const document = SwaggerModule.createDocument(app, config);
- SwaggerModule.setup('api', app, document); 
- await app.listen(3000);
- console.log(`Application is running on: http://localhost:3000/api`);
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(new ValidationPipe()); // Ativa validação dos DTOs
+
+  const config = new DocumentBuilder()
+    .setTitle('User CRUD API')
+    .setDescription('Documentação da API com NestJS, Prisma e JWT')
+    .setVersion('1.0')
+    .addTag('users')
+    .addTag('auth')
+    .addBearerAuth( // Adiciona o campo de autenticação no Swagger
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        in: 'header',
+      },
+      'token', 
+    )
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
+  await app.listen(3000);
 }
 bootstrap();
