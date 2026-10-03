@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, UseGuards, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ProgressoService } from './progresso.service';
 import { CreateProgressoDto } from './dto/create-progresso.dto';
 import { UpdateProgressoDto } from './dto/update-progresso.dto';
