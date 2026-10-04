@@ -12,6 +12,7 @@ import { MatriculasModule } from './matriculas/matriculas.module';
 import { ProgressoModule } from './progresso/progresso.module';
 import { PlanosModule } from './planos/planos.module';
 import { PagamentosModule } from './pagamentos/pagamentos.module';
+import { TrilhasModule } from './trilhas/trilhas.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { PagamentosModule } from './pagamentos/pagamentos.module';
     MatriculasModule,
     ProgressoModule,
     PlanosModule,
-    PagamentosModule, // <--- Apenas uma referência aqui
+    PagamentosModule,
+    TrilhasModule, // <--- Apenas uma referência aqui
   ],
   controllers: [AppController],
   providers: [AppService],
