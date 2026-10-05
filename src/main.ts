@@ -6,15 +6,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe()); // Ativa validação dos DTOs
-
+  // Configuração do Swagger
   const config = new DocumentBuilder()
     .setTitle('User CRUD API')
     .setDescription('Documentação da API com NestJS, Prisma e JWT')
     .setVersion('1.0')
     .addTag('users')
     .addTag('auth')
-    .addBearerAuth( // Adiciona o campo de autenticação no Swagger
+    .addBearerAuth(
       {
         type: 'http',
         scheme: 'bearer',
@@ -22,13 +21,20 @@ async function bootstrap() {
         name: 'JWT',
         in: 'header',
       },
-      'token', 
+      'token',
     )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  app.enableCors({
+    origin: '*', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  });
+ 
+  app.useGlobalPipes(new ValidationPipe());
+
+  await app.listen(3000, '0.0.0.0');
 }
 bootstrap();

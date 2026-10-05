@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_api
+    ports:
+      - "3000:3000"
+    environment:
+      # O Prisma com SQLite procura o arquivo local (geralmente na pasta prisma)
+      DATABASE_URL: "file:./prisma/dev.db"
+      # Sua chave secreta definida como 0000
+      JWT_SECRET: "00000"
+    volumes:
+      # Isso garante que o arquivo do SQLite não seja apagado quando o Docker reiniciar
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
